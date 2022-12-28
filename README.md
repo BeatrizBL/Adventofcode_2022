@@ -5,19 +5,19 @@ In this repository you can find some proposed solutions to the 50 coding challen
 Task descriptions are available as part of the Readme of each day, together with a **short explanation of the proposed solution**. The input files would be different for each user.
 
 
-```R
+```python
             X
            ^^^
           ^^^B^
          ^B^^^^^
         ^^^B^^^^^
        ^^^^^^O^^^^
-      ^^$^^^^^^^B^^
-     ^^^^^^^^^^$^^^^
-    ^^O^^^^$^^^^^^O^^
+      ^^S^^^^^^^B^^
+     ^^^^^^^^^^S^^^^
+    ^^O^^^^S^^^^^^O^^
    ^^^^^^^^^B^^^^^^^^^
-  ?^^^O^^^^^^^^^$^^^^^^
- ^^$^^^$^^^^^^B^^^^O^^B^
+  S^^^O^^^^^^^^^S^^^^^^
+ ^^B^^^S^^^^^^B^^^^O^^B^
 ^^^^^^^^^^^^^^^^^^^^^^^^^
             II
             II
