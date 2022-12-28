@@ -1,16 +1,7 @@
 # Day X: Title
-## Part One
 
-Description.
+Description of the task for this day can be found in https://adventofcode.com/2022/day/X.
 
-**Question**
-
-## Part Two
-
-Description.
-
-**Question**
-
-# Solution used
+## Solution used
 
 Explanation.
