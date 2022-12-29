@@ -4,4 +4,4 @@ Description of the task for this day can be found in https://adventofcode.com/20
 
 ## Solution used
 
-Explanation.
+Using a rolling window over the input string, the amount of different characters in each substring is assessed using its set length.
