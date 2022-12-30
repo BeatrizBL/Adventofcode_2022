@@ -4,6 +4,19 @@ In this repository you can find some proposed solutions to the 50 coding challen
 
 The Readme of each day includes a **short explanation of the proposed solution**. Task descriptions can be found in the original link. The input files would be different for each user.
 
+## Main concepts covered
+
+List of interesting concepts and packages used on each day.
+- Day 1 - Basic list comprehension.
+- Day 2 - Circular lists and Modulo operator.
+- Day 3 - Pipeline execution with `reduce`.
+- Day 4 - Bitwise operations.
+- Day 5 - Stacks with lists. Substring extraction using regular expressions.
+- Day 6 - Rolling windows.
+- Day 7 - Object Oriented Programing, leveraging subclasses inheritance. Tree and Graph structures.
+
+<br/><br/>
+
 
 ```python
             X
