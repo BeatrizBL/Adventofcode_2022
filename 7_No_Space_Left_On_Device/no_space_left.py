@@ -29,6 +29,7 @@ class FileSystem():
             self._cwd = name
 
     def _name(self, name: str) -> str:
+        """Absolute path"""
         if name.startswith('/'):
             return name 
         if self._cwd == '/':
@@ -65,9 +66,9 @@ class FileSystem():
 
 
 def process_command_lines(input: list) -> list:
-    """Process the command lines into a list of tuples with
+    """Process the command lines into a list of tuples where
     - the first element is the command
-    - and the second element is the output of each command as lists of lines.
+    - and the second element is the output of each command, as a list of lines.
     """
     processed = {}
     commands_ix = [i for i in range(len(input)) if input[i].startswith('$')]
@@ -104,6 +105,19 @@ def compute_total_directory_size(
         sizes = [s for s in sizes if s<=maximum_size]
     return sum(sizes)
 
+def get_directory_to_delete(
+    fs: FileSystem, 
+    total_size: int,
+    size_required: int
+) -> int:
+    free = total_size - fs.get_element_size('/')
+    if free >= size_required:
+        return 0
+    size_to_free = size_required - free
+    sizes = [fs.get_element_size(d) for d in fs.get_directories()]
+    sizes = [s for s in sizes if s>=size_to_free]
+    return min(sizes)
+
 
 if __name__ == '__main__':
     instructions = read_file_into_list(path='7_No_Space_Left_On_Device/7_input.txt')
@@ -113,5 +127,9 @@ if __name__ == '__main__':
     answer = compute_total_directory_size(filesystem, maximum_size=100000)
     print(f'Answer to part 1: {answer}')
 
-    answer = None
+    answer = get_directory_to_delete(
+        filesystem, 
+        total_size=70000000,
+        size_required=30000000
+    )
     print(f'Answer to part 2: {answer}')
