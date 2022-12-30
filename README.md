@@ -14,8 +14,7 @@ List of interesting concepts and packages used on each day.
 - Day 5 - Stacks with lists. Substring extraction using regular expressions.
 - Day 6 - Rolling windows.
 - Day 7 - Object Oriented Programing, leveraging subclasses inheritance. Tree and Graph structures.
-
-<br/><br/>
+- Day 8 - Matrices with `numpy.array`.
 
 
 ```python
