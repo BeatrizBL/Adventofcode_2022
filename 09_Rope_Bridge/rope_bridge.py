@@ -151,7 +151,7 @@ def move_ropes(
 
 
 if __name__ == '__main__':
-    input = read_file_into_list(path='9_Rope_Bridge/9_input.txt')
+    input = read_file_into_list(path='09_Rope_Bridge/9_input.txt')
     directions = expand_input_directions(input)
 
     rope = Rope()

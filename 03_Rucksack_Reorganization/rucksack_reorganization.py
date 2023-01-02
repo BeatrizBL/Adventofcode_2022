@@ -26,7 +26,7 @@ def split_elf_groups(
 
 
 if __name__ == '__main__':
-    rucksacks = read_file_into_list(path='3_Rucksack_Reorganization/3_input.txt')
+    rucksacks = read_file_into_list(path='03_Rucksack_Reorganization/3_input.txt')
     answer = reduce(
         lambda v, f: f(v), 
         (split_compartments,

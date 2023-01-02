@@ -57,7 +57,7 @@ def check_top_crates(stacks: list) -> list:
 
 if __name__ == '__main__':
     input_stacks, input_movements = read_file_into_list(
-        path='5_Supply_Stacks/5_input.txt',
+        path='05_Supply_Stacks/5_input.txt',
         split_list_char='\n',
         drop_spaces=False
     )

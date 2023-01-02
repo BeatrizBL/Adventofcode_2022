@@ -1,4 +1,4 @@
-# Day X: Cathode-Ray Tube
+# Day 10: Cathode-Ray Tube
 
 Description of the task for this day can be found in https://adventofcode.com/2022/day/10.
 

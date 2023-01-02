@@ -47,7 +47,7 @@ def compute_max_scenic_score(trees) -> int:
     return max_score      
 
 if __name__ == '__main__':
-    trees = read_file_into_list(path='8_Treetop_Tree_House/8_input.txt')
+    trees = read_file_into_list(path='08_Treetop_Tree_House/8_input.txt')
     trees = process_input_trees(trees)
 
     answer = count_visible_trees(trees)

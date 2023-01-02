@@ -22,7 +22,7 @@ def count_some_intersection(binary_sections: list) -> int:
 
 
 if __name__ == '__main__':
-    sections = read_file_into_list(path='4_Camp_Cleanup/4_input.txt')
+    sections = read_file_into_list(path='04_Camp_Cleanup/4_input.txt')
     binary_sections = format_input_sections(sections)
     
     answer = count_full_intersections(binary_sections)

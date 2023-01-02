@@ -120,7 +120,7 @@ def get_directory_to_delete(
 
 
 if __name__ == '__main__':
-    instructions = read_file_into_list(path='7_No_Space_Left_On_Device/7_input.txt')
+    instructions = read_file_into_list(path='07_No_Space_Left_On_Device/7_input.txt')
     instructions = process_command_lines(instructions)
     filesystem = build_file_system(command_lines=instructions)
 

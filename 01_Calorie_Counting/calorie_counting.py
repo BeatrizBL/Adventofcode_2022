@@ -14,7 +14,7 @@ def total_top_elf_calories(cal: list, top_n: int) -> int:
 
 if __name__ == '__main__':
     cal = read_file_into_list(
-        path='1_Calorie_Counting/1_input.txt',
+        path='01_Calorie_Counting/1_input.txt',
         split_list_char='\n'
     )
     answer = max_elf_calories(cal)

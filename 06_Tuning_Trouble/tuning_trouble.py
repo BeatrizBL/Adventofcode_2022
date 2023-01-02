@@ -12,7 +12,7 @@ def find_package_start(
 
 
 if __name__ == '__main__':
-    datastream = read_file_into_list(path='6_Tuning_Trouble/6_input.txt')[0]
+    datastream = read_file_into_list(path='06_Tuning_Trouble/6_input.txt')[0]
     answer = find_package_start(datastream=datastream)
     print(f'Answer to part 1: {answer}')
 

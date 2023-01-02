@@ -61,7 +61,7 @@ def obtain_shape_for_result(
 
 
 if __name__ == '__main__':
-    lines = read_file_into_list(path='2_Rock_Paper_Scissors/2_input.txt')
+    lines = read_file_into_list(path='02_Rock_Paper_Scissors/2_input.txt')
 
     strategy = clean_input_strategy(
         lines=lines,
