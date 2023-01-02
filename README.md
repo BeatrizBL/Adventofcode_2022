@@ -23,6 +23,7 @@ List of interesting concepts and packages used on each day.
   - Least Common Multiple using `math.gcd`.
   - Regular expressions.
 - Day 12 - Breadth-First Search to find shortest path of directed graphs.
+- Day 13 - Recursive methods. Bubble Sort for non numerical lists.
 
 
 ```python
