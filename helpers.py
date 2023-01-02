@@ -1,3 +1,5 @@
+from math import gcd
+
 
 def clean_string_list(
     l: str,
@@ -22,3 +24,10 @@ def read_file_into_list(
         cuts = [0] + cuts + [len(lines)]
         lines = [[s for s in lines[i:j]] for i,j in zip(cuts[:(len(cuts)-1)], cuts[1:len(cuts)])]
     return clean_string_list(lines, drop_spaces=drop_spaces)
+
+
+def compute_least_common_multiple(values: list) -> int:
+    lcm = 1
+    for i in range(len(values)):
+        lcm = int( lcm * values[i] / gcd(lcm, values[i]) )
+    return lcm

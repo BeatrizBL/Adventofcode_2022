@@ -17,6 +17,11 @@ List of interesting concepts and packages used on each day.
 - Day 8 - Matrices with `numpy.array`.
 - Day 9 - Sparse, unbounded matrices with dictionaries. Basic Object Oriented Programing.
 - Day 10 - Basic OOP.
+- Day 11 - Besides basic OOP:
+  - `eval` method to transform strings into callables.
+  - Queues with lists.
+  - Least Common Multiple using `math.gcd`.
+  - Regular expressions.
 
 
 ```python
