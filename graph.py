@@ -31,10 +31,10 @@ class Graph:
     def get_nodes(self):
         return self._nodes
 
-    def get_node(self, node):
-        if node not in self.get_nodes():
+    def get_node(self, node, ignore_errors: bool = False):
+        if node not in self.get_nodes() and not ignore_errors:
             raise ValueError(f'Node {node} not available in the graph!')
-        return self._nodes[node]
+        return self._nodes.get(node, None)
 
     def get_neighbors(self, node):
         if node not in self.get_nodes():
@@ -46,9 +46,10 @@ class Graph:
             for neighbor in self._graph_dict[node]:
                 print('(', node, ', ', neighbor, ')')
 
-    def find_path_DFS(self, start, end):
-        if start not in self.get_nodes() or end not in self.get_nodes():
-            raise ValueError(f'Node {node} not available in the graph!')
+    def find_path_DFS(self, start, end) -> list:
+        for node in [start, end]:
+            if node not in self.get_nodes():
+                raise ValueError(f'Node {node} not available in the graph!')
 
         stack = [(start, [start])]
         while stack:
@@ -58,6 +59,22 @@ class Graph:
                     return path + [next]
                 else:
                     stack.append((next, path + [next]))
+
+    def find_shortest_path_BFS(self, start, end) -> list:
+        for node in [start, end]:
+            if node not in self.get_nodes():
+                raise ValueError(f'Node {node} not available in the graph!')
+        
+        queue = [(start, [])]
+        visited = [start]
+        while len(queue) > 0:
+            node, path = queue.pop(0)
+            if node == end:
+                return path + [end]
+            for neighbor in self.get_neighbors(node):
+                if neighbor not in visited:
+                    queue.append((neighbor, path+[node]))
+                    visited.append(neighbor)
 
 
 class Tree(Graph):

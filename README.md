@@ -9,7 +9,7 @@ The Readme of each day includes a **short explanation of the proposed solution**
 List of interesting concepts and packages used on each day.
 - Day 1 - Basic list comprehension.
 - Day 2 - Circular lists and Modulo operator.
-- Day 3 - Pipeline execution with `reduce`.
+- Day 3 - Pipeline execution with `reduce`. ASCII values with `ord`.
 - Day 4 - Bitwise operations.
 - Day 5 - Stacks with lists. Substring extraction using regular expressions.
 - Day 6 - Rolling windows.
@@ -22,6 +22,7 @@ List of interesting concepts and packages used on each day.
   - Queues with lists.
   - Least Common Multiple using `math.gcd`.
   - Regular expressions.
+- Day 12 - Breadth-First Search to find shortest path of directed graphs.
 
 
 ```python
