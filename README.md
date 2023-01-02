@@ -15,7 +15,8 @@ List of interesting concepts and packages used on each day.
 - Day 6 - Rolling windows.
 - Day 7 - Object Oriented Programing, leveraging subclasses inheritance. Tree and Graph structures.
 - Day 8 - Matrices with `numpy.array`.
-- Day 9 - Sparse, unbounded matrices with dictionaries. Simple Object Oriented Programing.
+- Day 9 - Sparse, unbounded matrices with dictionaries. Basic Object Oriented Programing.
+- Day 10 - Basic OOP.
 
 
 ```python
