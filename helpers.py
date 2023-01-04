@@ -26,6 +26,29 @@ def read_file_into_list(
     return clean_string_list(lines, drop_spaces=drop_spaces)
 
 
+def print_sparse_matrix(
+    matrix: dict, 
+    empty_char: str = '.'
+):
+    """Prints an sparse matrix defined as a dictionary, where the keys are tuples of (i,j)
+    positions in the matrix.
+
+    Args:
+        matrix (dict): Matrix to print.
+        empty_char (str, optional): Character to be used for positions that are not available
+            in the dictionary. Defaults to '.'.
+    """
+    y1 = min([i for i,_ in list(matrix.keys())])
+    y2 = max([i for i,_ in list(matrix.keys())])
+    x1 = min([j for _,j in list(matrix.keys())])
+    x2 = max([j for _,j in list(matrix.keys())])
+    for i in range(y1, y2+1):
+        line = ''
+        for j in range(x1, x2+1):
+            line += matrix.get((i,j), empty_char)
+        print(line)
+
+
 def compute_least_common_multiple(values: list) -> int:
     lcm = 1
     for i in range(len(values)):

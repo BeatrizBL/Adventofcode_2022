@@ -1,4 +1,4 @@
-from helpers import read_file_into_list
+from helpers import read_file_into_list, print_sparse_matrix
 
 class Rope():
 
@@ -62,24 +62,13 @@ class Rope():
         mark_path: bool = False,
         main_chars: list = []
     ):
-        y1 = min([i for i,_ in list(pos.keys())])
-        y2 = max([i for i,_ in list(pos.keys())])
-        x1 = min([j for _,j in list(pos.keys())])
-        x2 = max([j for _,j in list(pos.keys())])
-        for i in range(y1, y2+1):
-            line = ''
-            for j in range(x1, x2+1):
-                c = pos.get((i,j), None)
-                if c not in main_chars:
-                    if i == 0 and j == 0:
-                        line += 's'
-                    elif mark_path and c is not None:
-                        line += '#'
-                    else:
-                        line += '.'
-                else:
-                    line += c
-            print(line)
+        if pos.get((0,0), None) not in main_chars:
+            pos[(0,0)] = 's'
+        if mark_path:
+            for p, v in pos.items():
+                if v not in main_chars:
+                    pos[p] = '#'
+        print_sparse_matrix(pos)
 
     def print_head_path(self):
         self.print_positions(
