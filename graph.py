@@ -13,7 +13,7 @@ class Graph:
     def add_edge(self, node, neighbor):
         if node not in self._graph_dict:
             self._graph_dict[node] = [neighbor]
-        else:
+        elif neighbor not in self._graph_dict[node]:
             self._graph_dict[node].append(neighbor)
         
         if neighbor not in self._graph_dict:
@@ -25,7 +25,7 @@ class Graph:
             self._nodes[neighbor] = None
 
         # Add edge back for non-directed graphs
-        if not self.directed:
+        if not self.directed and node not in self._graph_dict[neighbor]:
             self._graph_dict[neighbor].append(node)
 
     def get_nodes(self):
@@ -96,3 +96,16 @@ class Tree(Graph):
 
     def get_child_nodes(self, node):
         return self.get_neighbors(node)
+
+
+def compute_graph_distances(g: Graph, nodes: list = None) -> dict:
+    dist = {}
+    nodes = g.get_nodes().keys() if nodes is None else nodes
+    for start in nodes:
+        for end in nodes:
+            if start != end and (start,end) not in dist:
+                d = len(g.find_shortest_path_BFS(start, end)) - 1
+                dist[(start,end)] = d
+                if not g.directed:
+                    dist[(end,start)] = d
+    return dist
