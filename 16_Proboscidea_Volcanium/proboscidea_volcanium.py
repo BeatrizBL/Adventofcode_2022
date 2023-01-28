@@ -2,9 +2,11 @@ import sys
 sys.path.append('/home/usuario/Desktop/Personal/Adventofcode_2022')
 
 from helpers import read_file_into_list
-from graph import Graph, compute_graph_distances
+from graph import Graph, compute_graph_distances, kernighan_lin_split
 import re
 import heapq
+from copy import deepcopy
+from itertools import combinations
 
 class PriorityQueue:
     def __init__(self):
@@ -74,6 +76,58 @@ def compute_max_pressure(
             queue.add((next_valve, (remaining_steps - steps), next_to_open, new_gain), (1 / priority, iter))
     return gain
 
+def compute_max_pressure_from_split(
+    tunnels: Graph,
+    start_valve: str,
+    max_steps: int,
+    split: dict
+) -> int:
+    total = 0
+    for s in set(split.values()):
+        g = deepcopy(tunnels)
+        for n in g.get_nodes().keys():
+            if split.get(n, None) != s:
+                g.add_update_node(n, value=0)
+        total += compute_max_pressure(g, start_valve=start_valve, max_steps=max_steps)
+    return total
+
+def compute_max_pressure_double(
+    tunnels: Graph,
+    start_valve: str,
+    max_steps: int,
+    initial_split: dict, # Keys all valves to visit
+    verbose: bool = False
+) -> int:
+    split_tags = [str(t) for t in set(initial_split.values()) if t is not None]
+    if len(split_tags) > 2:
+        raise ValueError('Provide an initial split into, at most, two parts')
+    elif len(split_tags) == 1:
+        split_tags[1] = 'b' if split_tags[0]!='b' else 'a'
+    else:
+        split_tags = ['a', 'b']
+    to_assign = [n for n,v in initial_split.items() if v is None]
+    max_pressure = 0
+    max_split = None
+    i = 0
+    for r in range(1, len(to_assign)+1):
+        for assign in combinations(to_assign, r):
+            split = initial_split.copy()
+            for n in to_assign:
+                split[n] = split_tags[0] if n in assign else split_tags[1]
+            pressure = compute_max_pressure_from_split(
+                tunnels=tunnels, start_valve=start_valve, max_steps=max_steps, split=split
+            )
+            if pressure > max_pressure:
+                max_pressure = pressure
+                max_split = split
+            i += 1
+            if verbose and i%100 == 0:
+                print(f'Iteration {i}')
+    if verbose:
+        print('Split creating maximum pressure release, starting from provided')
+        print(max_split)
+    return max_pressure
+
 
 if __name__ == '__main__':
     input = read_file_into_list(path='16_Proboscidea_Volcanium/16_input.txt')
@@ -81,5 +135,8 @@ if __name__ == '__main__':
     answer = compute_max_pressure(tunnels, start_valve='AA', max_steps=30)
     print(f'Answer to part 1: {answer}')
 
-    answer = None
+    split = {'OM': 'a', 'YW': None, 'VX': 'a', 'WI': 'a', 'NG': None, 'ZL': None, 'GB': None, 'OT': None,
+             'IC': None, 'HV': None, 'MX': 'b', 'FM': 'b', 'QQ': 'b', 'DG': 'b', 'IS': 'b'}
+    answer = compute_max_pressure_double(tunnels, start_valve='AA', max_steps=26,
+                                         initial_split=split, verbose=True)
     print(f'Answer to part 2: {answer}')
