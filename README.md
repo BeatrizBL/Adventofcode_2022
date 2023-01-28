@@ -26,6 +26,9 @@ List of interesting concepts and packages used on each day.
 - Day 13 - Recursive methods. Bubble Sort for non numerical lists.
 - Day 14 - Sparse matrices with dictionaries.
 - Dy 15 - Manhattan distance. Python profiling for code optimization.
+- Dy 16 - Besides Graph structure:
+  - A* algorithm to find optimal path
+  - Graph visualization tools
 
 
 ```python
