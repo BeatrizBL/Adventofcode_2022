@@ -1,5 +1,9 @@
 from helpers import read_file_into_list, print_sparse_matrix
 from copy import deepcopy
+import altair as alt
+from pandas import DataFrame
+import imageio
+import os
 
 class Rock():
 
@@ -52,17 +56,23 @@ class Chamber():
         jets: str,
         chamber_width: int = 7,
         rock_start_offset: tuple = (2, 3),
-        verbose: bool = False
+        verbose: bool = False,
+        save_all_steps: bool = False
     ):
         self.chamber_width = chamber_width
+        self._chamber_dict = {}
         self.jets = jets
         self._jet_index = 0
-        self._chamber_dict = {}
+
         self.rocks = []
-        self.max_resting_position = -1
         self.rock_start_offset = rock_start_offset
-        self._resting_id = -1
+        self.max_resting_position = -1
+        self._resting_tag = -1 # Mark used for resting rocks value in dict
+
         self.verbose = verbose
+        self.save_all_steps = save_all_steps
+        self._all_steps = []
+
 
     def add_rock(self, rock: Rock):
         corner_x = self.rock_start_offset[0]
@@ -74,10 +84,12 @@ class Chamber():
     def update_rock_pos(self, rock: Rock):
         self._chamber_dict = {p:r for p,r in self._chamber_dict.items() if r!=rock.id}
         for p in rock.pos:
-            self._chamber_dict[p] = rock.id if not rock.resting else self._resting_id
+            self._chamber_dict[p] = rock.id if not rock.resting else self._resting_tag
         if self.verbose:
             print_sparse_matrix({(-y,x): '@' if v>=0 else '#' for (x,y),v in self._chamber_dict.items()})
             print('\n')
+        if self.save_all_steps:
+            self._all_steps.append(self._chamber_dict.copy())
 
     def _check_valid_position(self, rock: Rock) -> bool:
         out = [p for p in rock.pos if p[0]<0 or p[0]>=self.chamber_width or p[1]<0]
@@ -114,6 +126,52 @@ class Chamber():
             self._move_rock_jet(rock)
             resting = not self._move_rock_down(rock)
 
+    def _generate_images(self, steps: list) -> list:
+        max_y = max([y for d in steps for _,y in d.keys()])
+        images = []
+        for d in steps:
+            data = DataFrame([{
+                'x': x, 'y': y, 
+                'color': 1 if v<0 else 0,
+                'size': 1
+            } for (x,y),v in d.items()])
+            fig = alt.Chart(data).mark_square().encode(
+                x=alt.X(
+                    'x:N', scale=alt.Scale(domain=list(range(self.chamber_width))),
+                    axis=alt.Axis(labels=False, tickSize=0),
+                    title=''
+                ),
+                y=alt.Y(
+                    'y:N', scale=alt.Scale(reverse=True, domain=list(range(max_y+1))),
+                    axis=alt.Axis(labels=False, tickSize=0),
+                    title=''
+                ),
+                color=alt.Color(
+                    'color:N', 
+                    scale=alt.Scale(domain=[0,1], range=['blue', 'grey']),
+                    legend=None
+                ),
+                size=alt.Size('size', legend=None)
+            )
+            images.append(fig)
+        return images
+
+    def store_moves_gif(
+        self,
+        n_steps: int = 50,
+        file_name: str = '17_Pyroclastic_Flow/chamber.gif'
+    ):
+        if len(self._all_steps) == 0:
+            raise ValueError('No movements to display')
+        images = self._generate_images(self._all_steps[:n_steps])
+        byte_images = []
+        for image in images:
+            image.save('_temp.png')
+            byte_images.append(imageio.imread('_temp.png'))
+        imageio.mimsave(file_name, byte_images, duration=0.3)
+        os.remove('_temp.png')
+
+
 
 def drop_rocks(
     chamber: Chamber,
@@ -132,7 +190,10 @@ if __name__ == '__main__':
 
     input = read_file_into_list(path='17_Pyroclastic_Flow/17_input.txt')
     chamber = Chamber(input[0])
+    # chamber.save_all_steps = True
     drop_rocks(chamber=chamber, rocks=rocks, n_rocks=2022)
+    # chamber.store_moves_gif(n_steps=110)
+
     answer = chamber.max_resting_position + 1
     print(f'Answer to part 1: {answer}')
 
