@@ -25,10 +25,11 @@ List of interesting concepts and packages used on each day.
 - Day 12 - Breadth-First Search to find shortest path of directed graphs.
 - Day 13 - Recursive methods. Bubble Sort for non numerical lists.
 - Day 14 - Sparse matrices with dictionaries.
-- Dy 15 - Manhattan distance. Python profiling for code optimization.
-- Dy 16 - Besides Graph structure:
-  - A* algorithm to find optimal path
-  - Graph visualization tools
+- Day 15 - Manhattan distance. Python profiling for code optimization.
+- **Day 16** - Besides Graph structure:
+  - A* algorithm to find optimal path.
+  - Graph visualization tools.
+- Day 17 - Pandas DataFrame visualization into **an animated GIF**.
 
 
 ```python
