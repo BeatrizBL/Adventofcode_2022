@@ -62,7 +62,7 @@ class Chamber():
         self.chamber_width = chamber_width
         self._chamber_dict = {}
         self.jets = jets
-        self._jet_index = 0
+        self.jet_index = 0
 
         self.rocks = []
         self.rock_start_offset = rock_start_offset
@@ -97,8 +97,8 @@ class Chamber():
         return len(out+overlap) == 0
 
     def _move_rock_jet(self, rock: Rock):
-        dir = self.jets[self._jet_index]
-        self._jet_index = (self._jet_index + 1) % len(self.jets)
+        dir = self.jets[self.jet_index]
+        self.jet_index = (self.jet_index + 1) % len(self.jets)
         rock.move_rock('R' if dir=='>' else 'L')
         if self._check_valid_position(rock):
             self.update_rock_pos(rock)
@@ -171,6 +171,40 @@ class Chamber():
         imageio.mimsave(file_name, byte_images, duration=0.3)
         os.remove('_temp.png')
 
+    @property
+    def bottom_profile(self) -> str:
+        def _blocked(x,y) -> bool:
+            return (self._chamber_dict.get((x, y), None) == self._resting_tag) or (y<0)
+        bottom_rocks_pos = [p for p, v in self._chamber_dict.items() if v == self._resting_tag and p[1]==0]
+        left_rocks_pos = [p for p, v in self._chamber_dict.items() if v == self._resting_tag and p[0]==0]
+        if len(bottom_rocks_pos) == 0:
+            return '>'*self.chamber_width # No rock at the bottom
+        if len(left_rocks_pos) == 0:
+            x, y = min(bottom_rocks_pos, key=lambda p: p[0])
+            x = x-1
+            profile = '>'*x
+        else:
+            x, y = max(left_rocks_pos, key=lambda p: p[1])
+            y = y+1
+            profile = ''
+
+        direction_tags = ['>', 'v', '<', '^']
+        directions = [(1,0), (0,-1), (-1,0), (0,1)]
+        dir = 0
+        while x != self.chamber_width:
+            # Try to turn to the right
+            turn_dir = (dir+1) % len(directions)
+            if not _blocked(x+directions[turn_dir][0], y+directions[turn_dir][1]):
+                dir = turn_dir
+            elif _blocked(x+directions[dir][0], y+directions[dir][1]):
+                # If current direction is blocked, turn anticlockwise
+                dir = (dir-1) % len(directions)
+                while _blocked(x+directions[dir][0], y+directions[dir][1]):
+                    dir = (dir-1) % len(directions)
+            x, y = x+directions[dir][0], y+directions[dir][1]
+            profile = profile + direction_tags[dir]
+        return profile
+
 
 
 def drop_rocks(
@@ -182,6 +216,49 @@ def drop_rocks(
         rock = deepcopy(rocks[i%len(rocks)])
         chamber.add_rock(rock)
         chamber.move_rock(rock)
+
+
+
+def find_drop_cycle_positions(
+    chamber: Chamber,
+    rocks: list,
+    n_rocks: int
+) -> tuple:
+    def _state_hash(rock_ix: int, jet_ix: int, profile: str) -> str:
+        return str(rock_ix) + '-' + str(jet_ix) + '-' + profile
+    state_records = []
+    high_records = []
+    idx = 0
+    for i in range(n_rocks):
+        rock_index = i % len(rocks)
+        rock = deepcopy(rocks[rock_index])
+        chamber.add_rock(rock)
+        chamber.move_rock(rock)
+        state = _state_hash(rock_index, chamber.jet_index, chamber.bottom_profile)
+        if state in state_records:
+            idx = state_records.index(state)
+            break
+        state_records.append(state)
+        high_records.append(chamber.max_resting_position + 1)
+    return (idx, i), high_records + [chamber.max_resting_position + 1]
+
+def simulate_drop_rocks(
+    chamber: Chamber,
+    rocks: list,
+    n_rocks: int
+):
+    (first_start, second_start), heights = find_drop_cycle_positions(chamber, rocks, n_rocks)
+    previous_height = heights[first_start]
+    cycle_length = second_start - first_start
+    cycle_height = heights[second_start] - heights[first_start]
+    n_iters = int( (n_rocks - first_start) / cycle_length )
+    after_iters = (n_rocks - first_start) % cycle_length
+    if after_iters > 0:
+        after_height = (heights[first_start+after_iters-1] - heights[first_start])
+    elif after_iters == 0:
+        after_height =  heights[first_start-1] - heights[first_start] if first_start > 0 else 0
+    return previous_height + cycle_height * n_iters + after_height
+
 
 
 if __name__ == '__main__':
@@ -197,5 +274,6 @@ if __name__ == '__main__':
     answer = chamber.max_resting_position + 1
     print(f'Answer to part 1: {answer}')
 
-    answer = None
+    chamber = Chamber(input[0])
+    answer = simulate_drop_rocks(chamber=chamber, rocks=rocks, n_rocks=1000000000000)
     print(f'Answer to part 2: {answer}')

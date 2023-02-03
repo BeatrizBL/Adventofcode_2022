@@ -45,7 +45,7 @@ def print_sparse_matrix(
     for i in range(y1, y2+1):
         line = ''
         for j in range(x1, x2+1):
-            line += matrix.get((i,j), empty_char)
+            line += str(matrix.get((i,j), empty_char))
         print(line)
 
 
