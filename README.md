@@ -30,6 +30,7 @@ List of interesting concepts and packages used on each day.
   - A* algorithm to find optimal path.
   - Graph visualization tools.
 - Day 17 - Pandas DataFrame visualization into **an animated GIF**.
+- Day 18 - Breadth search on a 3D grid using a queue.
 
 
 ```python
