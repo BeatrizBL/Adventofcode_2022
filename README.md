@@ -32,6 +32,7 @@ List of interesting concepts and packages used on each day.
 - Day 17 - Pandas DataFrame visualization into **an animated GIF**.
 - Day 18 - Breadth search on a 3D grid using a queue.
 - **Day 19** - Integer linear programming.
+- Day 20 - Circular lists and Modulo operator.
 
 
 ```python
