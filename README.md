@@ -34,6 +34,7 @@ List of interesting concepts and packages used on each day.
 - **Day 19** - Integer linear programming.
 - Day 20 - Circular lists and Modulo operator.
 - Day 21 - Solving equations with `sympy` and recursive methods.
+- Day 22 - Matrices with dictionaries.
 
 
 ```python
