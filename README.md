@@ -35,6 +35,7 @@ List of interesting concepts and packages used on each day.
 - Day 20 - Circular lists and Modulo operator.
 - Day 21 - Solving equations with `sympy` and recursive methods.
 - Day 22 - Matrices with dictionaries.
+- Day 23 - Matrices with dictionaries.
 
 
 ```python
