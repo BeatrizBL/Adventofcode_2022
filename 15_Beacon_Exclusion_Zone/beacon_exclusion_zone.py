@@ -1,10 +1,5 @@
-import sys
-sys.path.append('/home/usuario/Desktop/Personal/Adventofcode_2022')
-from helpers import read_file_into_list
+from helpers import read_file_into_list, manhattan_distance
 import re
-
-def manhattan_distance(p: tuple, q: tuple) -> int:
-    return abs(p[0]-q[0]) + abs(p[1]-q[1])
 
 def break_down_line(line: str) -> tuple:
     """For a line with format:

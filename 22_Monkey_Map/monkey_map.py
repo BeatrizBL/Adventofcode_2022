@@ -1,7 +1,4 @@
-import sys
-sys.path.append('/home/usuario/Desktop/Personal/Adventofcode_2022')
-
-from helpers import read_file_into_list
+from helpers import read_file_into_list, process_direction
 
 def process_board(board_str: list) -> dict:
     board = {}
@@ -58,17 +55,6 @@ def build_wrapping_cube(
         for s, e in zip(start_ps, end_ps):
             mapping[(s, start_dir)] = (e, end_dir)
     return mapping
-
-def process_direction(position: tuple, direction: str) -> tuple:
-    i, j = position
-    if direction == '^':
-        return (i-1, j)
-    if direction == '>':
-        return (i, j+1)
-    if direction == 'v':
-        return (i+1, j)
-    if direction == '<':
-        return (i, j-1)
 
 def wrap_board(board: dict, position: tuple, direction: str) -> tuple:
     i, j = position

@@ -1,26 +1,9 @@
-import sys
-sys.path.append('/home/usuario/Desktop/Personal/Adventofcode_2022')
-
 from helpers import read_file_into_list
-from graph import Graph, compute_graph_distances, kernighan_lin_split
+from graph import Graph, compute_graph_distances
+from priority_queue import PriorityQueue
 import re
-import heapq
 from copy import deepcopy
 from itertools import combinations
-
-class PriorityQueue:
-    def __init__(self):
-        self.elements = []
-    
-    @property
-    def empty(self) -> bool:
-        return len(self.elements) == 0
-    
-    def add(self, item, priority: float):
-        heapq.heappush(self.elements, (priority, item))
-    
-    def pop(self):
-        return heapq.heappop(self.elements)[1]
 
 
 def build_valve_graph(input: list) -> Graph:

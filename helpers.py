@@ -54,3 +54,19 @@ def compute_least_common_multiple(values: list) -> int:
     for i in range(len(values)):
         lcm = int( lcm * values[i] / gcd(lcm, values[i]) )
     return lcm
+
+
+def manhattan_distance(p: tuple, q: tuple) -> int:
+    return abs(p[0]-q[0]) + abs(p[1]-q[1])
+
+
+def process_direction(position: tuple, direction: str) -> tuple:
+    i, j = position
+    if direction == '^':
+        return (i-1, j)
+    if direction == '>':
+        return (i, j+1)
+    if direction == 'v':
+        return (i+1, j)
+    if direction == '<':
+        return (i, j-1)
