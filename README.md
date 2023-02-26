@@ -36,6 +36,7 @@ List of interesting concepts and packages used on each day.
 - Day 21 - Solving equations with `sympy` and recursive methods.
 - Day 22 - Matrices with dictionaries.
 - Day 23 - Matrices with dictionaries.
+- Day 24 - Modified A* algorithm.
 
 
 ```python

@@ -96,18 +96,18 @@ def compute_possible_movements(
 def compute_min_path(
     valley: Valley,
     start: tuple,
-    exit: tuple
-) -> int:
-    visited = [] # position, valley state
+    exit: tuple,
+    state_idx: int = 0
+) -> tuple:
+    visited = [] # (position, valley state)
     queue = PriorityQueue()
-    n = heuristic(start, exit)
-    queue.add((start, 0, 0), (0, n, 0)) # (position, valley state, minutes), (minutes, distance, loop step)
+    queue.add((start, state_idx, 0), (0, heuristic(start, exit), 0)) # (position, valley state, minutes), (minutes, distance, loop step)
     iter = 0
     while not queue.empty:
         position, state_idx, minute = queue.pop()
-        if position == exit:
-            return minute + 1
         next_state_idx = (state_idx+1) % len(valley.states)
+        if position == exit:
+            return (minute + 1, next_state_idx)
         next_positions = compute_possible_movements(valley, position=position, state_idx=next_state_idx)
         for next_pos in next_positions:
             if (next_pos, next_state_idx) not in visited:
@@ -115,15 +115,18 @@ def compute_min_path(
                 visited.append((next_pos, next_state_idx))
                 h = heuristic(next_pos, exit)
                 queue.add((next_pos, next_state_idx, minute+1), (minute+1, h, iter))
-    return -1
+    return None
 
 
 if __name__ == '__main__':
     input = read_file_into_list(path='24_Blizzard_Basin/24_input.txt')
     valley = Valley(valley_input=input)
 
-    answer = compute_min_path(valley, start=(-1,0), exit=(valley.height-1, valley.width-1))
+    n1, idx1 = compute_min_path(valley, start=(-1,0), exit=(valley.height-1, valley.width-1))
+    answer = n1
     print(f'Answer to part 1: {answer}')
 
-    answer = None
+    n2, idx2 = compute_min_path(valley, start=(valley.height, valley.width-1), exit=(0,0), state_idx=idx1)
+    n3, _ = compute_min_path(valley, start=(-1,0), exit=(valley.height-1, valley.width-1), state_idx=idx2)
+    answer = n1 + n2 + n3
     print(f'Answer to part 2: {answer}')
