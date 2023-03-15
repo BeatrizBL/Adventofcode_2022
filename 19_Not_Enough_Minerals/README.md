@@ -6,7 +6,7 @@ Description of the task for this day can be found in https://adventofcode.com/20
 
 For this problem we will implement a numerical solution instead of the more obvious option of using a graph representation of the possibilities. In order to do that, we will model the problem as a set of inequalities and use the [integer linear programming](https://en.wikipedia.org/wiki/Integer_programming) implementation from `cvxopt` library to find a maximum value. One of the advantages of this approach is that the computation is almost instantaneous.
 
-The variables in the problem, denoted as $Rx_i$ will be the count of robots from type $x$ available at the beginning of minute $i$. That is, we have a total of $24*4=96$ variables for the first part and $32*4=128$ for the second part. If we denote as $T$ the total count of minutes (24 and 32 for each part respectively), the formula that we want to maximize is the total count of geodes produced:
+The variables in the problem, denoted as $Rx_i$ will be the count of robots from type $x$ available at the beginning of minute $i$. That is, we have a total of $24\cdot 4=96$ variables for the first part and $32\cdot 4=128$ for the second part. If we denote as $T$ the total count of minutes (24 and 32 for each part respectively), the formula that we want to maximize is the total count of geodes produced:
 $$geodes = Rg_1 \cdot T + Rg_2 \cdot (T-1) + \cdots + Rg_T \cdot 1$$
 Variables to count robots from other types have weight 0 in this formula.
 
@@ -26,6 +26,7 @@ Rg_i \leq {1 \over 7} \sum_{j=1}^{i-2} Rob_j \quad \longrightarrow \quad
 $$
 
 - We can build just one robot at each step. That is, the total count of robots is, at most, one more than the previous count.
+
 $$
 Ror_{i} + Rcl_{i} + Rob_{i} + Rg_{i} \leq Ror_{i-1} + Rcl_{i-1} + Rob_{i-1} + Rg_{i-1} + 1  \quad \longrightarrow \quad Ror_{i} + Rcl_{i} + Rob_{i} + Rg_{i} - Ror_{i-1} - Rcl_{i-1} - Rob_{i-1} - Rg_{i-1} \leq 1
 $$
